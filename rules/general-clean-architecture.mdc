@@ -1,0 +1,17 @@
+---
+description: Global Clean Architecture guardrails
+globs: src/**/*.cs
+alwaysApply: true
+---
+
+# General Clean Architecture Rules
+
+- Never reference Infrastructure from Application or Domain
+- Never put business logic in controllers
+- Always pass CancellationToken in async methods
+- Use existing naming conventions (plural entities: FormStructures, FormPages)
+- Do not introduce repositories or CQRS unless explicitly requested
+- Do not change plural entity naming unless asked
+- Prefer existing project conventions over generic best practices
+- See .cursor/docs/01_SYSTEM_ARCHITECTURE.md for structure
+- See .cursor/docs/ANTI_PATTERNS.md for what not to do

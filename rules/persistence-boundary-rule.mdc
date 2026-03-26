@@ -1,0 +1,12 @@
+---
+description: Application and Domain must not reference Infrastructure
+globs: src/Core/Application/**/*.cs, src/Core/Domain/**/*.cs
+alwaysApply: false
+---
+
+# Persistence Boundary Rule
+
+- Application must not reference Infrastructure
+- Domain must not reference Application or Infrastructure
+- No DbContext in Application layer
+- No DbContext in Domain layer

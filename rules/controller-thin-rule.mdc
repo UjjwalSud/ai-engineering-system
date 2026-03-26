@@ -1,0 +1,12 @@
+---
+description: Controllers must be thin
+globs: src/Host/Controllers/**/*.cs
+alwaysApply: false
+---
+
+# Controller Thin Rule
+
+- Controllers only inject services and delegate
+- No business logic in controllers
+- Use MustHavePermission for protected endpoints
+- Use OpenApiOperation for Swagger

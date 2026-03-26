@@ -1,0 +1,143 @@
+---
+description: Checklist and patterns for creating new modules in Clean Architecture API
+globs: src/**/*.cs
+alwaysApply: false
+---
+
+# New Module Creation Guide
+
+When creating a new feature module, follow this checklist to maintain consistency with the existing architecture. Reference: `FormDesigner` module and `.cursor/docs/01_SYSTEM_ARCHITECTURE.md`. See `.cursor/docs/REFERENCE_MODULES.md` for which module to copy.
+
+## 1. Module Naming
+
+- Use PascalCase for module name (e.g. `FormDesigner`, `OrderManagement`)
+- Domain entities: plural by convention (e.g. `FormStructures`, `FormPages`)
+- Services: `I{Entity}Service` / `{Entity}Service`
+
+## 2. Layer-by-Layer Checklist
+
+### Domain (`src/Core/Domain/{ModuleName}/`)
+
+- [ ] Create entity class extending `AuditableEntity` (or `BaseEntity` if no audit needed)
+- [ ] Add `[ForeignKey]` and navigation properties for related entities
+- [ ] Add enums in `Domain/Enums/{ModuleName}/` if needed
+- [ ] Domain must NOT reference Application or Infrastructure
+
+```csharp
+// Example: MyEntity.cs
+public class MyEntities : AuditableEntity
+{
+    public required string Name { get; set; }
+    public List<ChildEntity> Children { get; set; } = new();
+}
+```
+
+### Application (`src/Core/Application/{ModuleName}/`)
+
+- [ ] Create `I{Entity}Service` interface extending `ITransientService` or `IScopedService`
+- [ ] Add `CancellationToken cancellationToken = default` to all async methods
+- [ ] Create Request DTOs in `Model/Request/{Entity}/`
+  - `Create{Entity}Request` (with `[Required]`, `[EnumDataType]` where needed)
+  - `Update{Entity}Request` (include Id)
+  - `Search{Entity}Request` (extend `SearchRequestBaseClass` for list endpoints)
+- [ ] Create Response DTOs in `Model/Response/{Entity}/`
+  - `Create{Entity}Response` (Id, Message)
+  - `View{Entity}DetailResponse` (for single-item view)
+- [ ] Application must NOT reference Infrastructure
+
+```csharp
+// Example: IMyEntityService.cs
+public interface IMyEntityService : ITransientService
+{
+    Task<CreateMyEntityResponse> CreateAsync(CreateMyEntityRequest request, CancellationToken cancellationToken = default);
+    Task<ViewMyEntityDetailResponse> GetByIdAsync(DefaultIdType id, CancellationToken cancellationToken = default);
+    Task<PaginationResponse<ViewMyEntityDetailResponse>> SearchAsync(SearchMyEntityRequest request, CancellationToken cancellationToken = default);
+    Task<string> UpdateAsync(UpdateMyEntityRequest request, CancellationToken cancellationToken = default);
+    Task<string> DeleteAsync(DefaultIdType id, CancellationToken cancellationToken = default);
+}
+```
+
+### Infrastructure (`src/Infrastructure/Orbit/{ModuleName}/`)
+
+- [ ] Create `{Entity}Service` implementing `I{Entity}Service`
+- [ ] Inject `ApplicationDbContext` (or `NexusDbContext` for Nexus entities)
+- [ ] Use `NotFoundException` for missing entities: `_ = entity ?? throw new NotFoundException(...)`
+- [ ] Use `PaginatedListAsync<T, TDestination>` for paginated queries
+- [ ] Use Mapster `Adapt<T>()` for entity → response mapping
+- [ ] Pass `cancellationToken` to all EF async calls
+
+### Infrastructure – Persistence
+
+- [ ] Add `DbSet<MyEntity>` to `ApplicationDbContext` (or appropriate context)
+- [ ] Add migration: `Add-Migration {ModuleName}_{Description} -Context ApplicationDbContext`
+
+### Host – Controllers (`src/Host/Controllers/{ModuleName}/`)
+
+- [ ] Create controller inheriting `VersionNeutralApiController` or `BaseApiController`
+- [ ] Inject service interfaces via constructor
+- [ ] Add `[MustHavePermission(SystemAction.X, SystemResource.Y)]` for protected endpoints
+- [ ] Add `[OpenApiOperation("Description", "")]` for Swagger
+- [ ] Use partial class for controller if splitting by entity (e.g. `FormDesignerController.Form.cs`)
+
+### Authorization
+
+- [ ] Add `SystemResource.{ResourceName}` constant in `Shared/Authorization/SystemPermissions.cs`
+- [ ] Add `SystemPermission` entries for View, Create, Update, Delete (and Export if needed)
+
+```csharp
+// In SystemResource
+public const string ManageMyEntity = nameof(ManageMyEntity);
+
+// In SystemPermissions._all
+new("View MyEntity", SystemAction.View, SystemResource.ManageMyEntity, IsRoot: true, IsAdmin: true, IsBasic: false),
+new("Create MyEntity", SystemAction.Create, SystemResource.ManageMyEntity, ...),
+```
+
+## 3. File Structure Template
+
+```
+src/
+├── Core/
+│   ├── Domain/{ModuleName}/
+│   │   ├── MyEntity.cs
+│   │   └── ChildEntity.cs
+│   ├── Domain/Enums/{ModuleName}/
+│   │   └── MyStatus.cs
+│   └── Application/{ModuleName}/
+│       ├── IMyEntityService.cs
+│       └── Model/
+│           ├── Request/MyEntity/
+│           │   ├── CreateMyEntityRequest.cs
+│           │   ├── UpdateMyEntityRequest.cs
+│           │   └── SearchMyEntityRequest.cs
+│           └── Response/MyEntity/
+│               ├── CreateMyEntityResponse.cs
+│               └── ViewMyEntityDetailResponse.cs
+├── Infrastructure/Orbit/{ModuleName}/
+│   └── MyEntityService.cs
+└── Host/Controllers/{ModuleName}/
+    └── {ModuleName}Controller.cs
+```
+
+## 4. Patterns to Follow
+
+| Pattern | Usage |
+|---------|--------|
+| Soft delete | Set `EntityState.Deleted`; BaseDbContext handles `IsDeleted` |
+| Pagination | `PaginationResponse<T>` with `SearchRequestBaseClass` |
+| Errors | `NotFoundException`, `BadRequestException` from `Application.Common.Exceptions` |
+| Success messages | Use `SuccessMessages` from `Infrastructure.SystemConstants` |
+| Id type | `DefaultIdType` (alias for `int`) in `Directory.Build.props` |
+
+## 5. Anti-Patterns to Avoid
+
+- Do NOT put test/debug classes in production (e.g. `Test : INotificationMessage`)
+- Do NOT reference Infrastructure from Application or Domain
+- Do NOT skip `CancellationToken` on async methods
+- Do NOT add `DbContext` directly to Application layer
+
+## 6. After Creation
+
+- [ ] Run `Update-Database -Context ApplicationDbContext` (or appropriate context)
+- [ ] Verify endpoints in Swagger
+- [ ] Confirm permissions are assigned to roles in seed data if needed

@@ -1,0 +1,11 @@
+---
+description: DTO naming conventions
+globs: src/Core/Application/**/Model/**/*.cs
+alwaysApply: false
+---
+
+# DTO Naming
+
+- Request: Create{Entity}Request, Update{Entity}Request, Search{Entity}Request
+- Response: Create{Entity}Response, View{Entity}DetailResponse
+- Search requests extend SearchRequestBaseClass
