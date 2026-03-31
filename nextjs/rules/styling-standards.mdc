@@ -1,0 +1,32 @@
+---
+description: Enforce Tailwind-first, reusable, maintainable styling patterns
+alwaysApply: true
+---
+
+# Styling standards
+
+Use Tailwind CSS as the default styling system. Keep styling consistent, token-based, and reusable across pages/components.
+
+## Core rules
+
+- Prefer Tailwind utility classes over inline CSS.
+- Do not use `style={{}}` unless a runtime-only value cannot be represented cleanly with classes.
+- Avoid one-off hardcoded visual values in JSX (colors, spacing, font sizes, shadows, radii, z-index).
+- Reuse shared UI primitives and section patterns before creating new visual variants.
+- Keep styling aligned with theme/token strategy (Tailwind config, CSS variables, or shared class patterns).
+
+## Dark mode awareness
+
+- New UI should consider dark mode compatibility where the project supports dark mode.
+- Avoid color choices that break contrast or readability across light/dark surfaces.
+- Prefer semantic color usage patterns over arbitrary color literals.
+
+## Minimal allowed inline style exceptions
+
+`style={{}}` is acceptable only for narrowly scoped runtime cases, for example:
+
+- dynamic CSS custom properties (e.g. chart/gradient values from data),
+- runtime geometry values that cannot be pre-enumerated in class names,
+- temporary integration constraints with third-party libraries.
+
+Even in exceptions, keep inline styles minimal and local, and avoid duplicating them across components.

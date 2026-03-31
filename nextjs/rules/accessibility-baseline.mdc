@@ -1,0 +1,7 @@
+# accessibility-baseline.mdc
+
+- Interactive controls must be keyboard operable; use native `button` and `a` (with `href`) where possible.
+- Icon-only buttons and icon links must have an accessible name (`aria-label` or visible text).
+- Form inputs must be associated with labels (visible `<label>` or `aria-labelledby`).
+- Decorative images should use `alt=""`; informative images need descriptive `alt` text.
+- Do not rely on color alone to convey required state or errors — include text or icons with semantics.

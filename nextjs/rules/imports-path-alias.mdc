@@ -1,0 +1,29 @@
+---
+description: Keep imports readable with path aliases and stable module boundaries
+alwaysApply: true
+---
+
+# Imports and path aliases
+
+Prefer project aliases (typically `@/`) for imports from `src/`. Avoid deep relative imports that are hard to maintain.
+
+## Rules
+
+- Use `@/` (or project alias) for cross-feature imports from `src/`.
+- Relative imports are acceptable only for very local files in the same feature folder.
+- Avoid deep chains like `../../../../components/...`.
+- Keep barrel exports purposeful; do not create nested barrel chains that hide ownership or increase accidental coupling.
+- Keep shared route access centralized by importing from `@/lib/paths`.
+
+## Dynamic route helpers
+
+When route segments are dynamic, import helper functions from `@/lib/paths` rather than building URLs inline:
+
+- `paths.home`
+- `paths.about`
+- `paths.contact`
+- `paths.article(slug)`
+
+## Project setup expectation
+
+When scaffolding a project, ensure alias support is defined in `tsconfig.json` (`baseUrl` + `paths`) so imports remain consistent.

@@ -1,0 +1,17 @@
+---
+description: Enforce practical SEO baseline for public pages
+alwaysApply: true
+---
+
+# SEO first
+
+- Every public page must define metadata (title + description).
+- Titles must be meaningful and not generic.
+- Descriptions must be human-readable and not placeholders.
+- Ensure one H1 per page.
+- Maintain proper heading hierarchy.
+- Use semantic HTML (`section`, `article`, `nav`, etc.).
+- Ensure internal linking where relevant.
+- Pages must be indexable unless explicitly restricted.
+- Avoid duplicate or missing metadata.
+- Keep canonical URL behavior consistent with shared metadata/site config.

@@ -1,0 +1,15 @@
+# no-hardcoding-rule.mdc
+
+Do not hardcode:
+
+- routes
+- navigation items
+- footer links
+- metadata defaults
+- site settings
+
+Always use:
+- config files
+- shared utilities
+
+Hardcoding leads to inconsistency and must be avoided.

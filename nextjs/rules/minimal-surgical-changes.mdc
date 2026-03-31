@@ -1,0 +1,29 @@
+---
+description: Keep changes scoped, reviewable, and low-risk
+alwaysApply: true
+---
+
+# Minimal and surgical changes
+
+Implement only what the task requires. Favor focused diffs that preserve existing behavior and reduce regression risk.
+
+## Scope discipline
+
+- Edit only files required for the requested outcome.
+- Do not perform drive-by refactors, broad renames, or style rewrites unless explicitly requested.
+- Preserve existing architecture and naming unless there is a clear defect to fix.
+- Keep behavior stable outside the target area.
+
+## Safe implementation habits
+
+- Reuse existing helpers/components/config before creating new abstractions.
+- Match local conventions (file organization, import style, error handling).
+- Keep commits and review intent obvious: each change should map to a requirement.
+
+## When broader work is allowed
+
+Only expand scope when required to:
+
+- fix failing builds/tests directly caused by the change,
+- satisfy architecture rules (e.g. route strings moved to `paths.ts`),
+- remove duplicated logic introduced by the requested feature.

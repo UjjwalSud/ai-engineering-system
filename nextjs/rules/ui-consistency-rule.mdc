@@ -1,0 +1,7 @@
+# ui-consistency-rule.mdc
+
+- Reuse existing section components before creating new ones.
+- Avoid creating multiple variations of the same UI pattern.
+- Maintain consistent spacing, typography, and layout.
+- Use shared components for repeated patterns.
+- Keep visual consistency across all pages.

@@ -1,0 +1,40 @@
+---
+description: Centralize route definitions and menu wiring for consistent navigation
+alwaysApply: true
+---
+
+# Routes and menus
+
+All route and menu wiring must use centralized config and helpers. Do not hardcode raw path strings across components.
+
+## Required sources
+
+- `src/lib/paths.ts` is the canonical route source.
+- `src/config/navigation.ts` owns header/main menu definitions.
+- `src/config/footer.ts` owns footer menu/link definitions.
+
+## Path patterns
+
+Expose stable path entries/helpers in `paths.ts`, including dynamic routes:
+
+- `home`
+- `about`
+- `contact`
+- `article(slug)`
+
+Components should consume these exports directly instead of string concatenation.
+
+## Implementation requirements
+
+When adding or changing a public route:
+
+1. Add/update the route in `src/lib/paths.ts`.
+2. Add/update navigation and footer config where the route should appear.
+3. Use imported path values in links (`Link`, menu renderers, CTA components).
+4. Keep `sitemap`, canonical logic, and metadata helpers aligned with the same route source where possible.
+
+## Prohibited patterns
+
+- `href="/something"` hardcoded repeatedly in JSX.
+- Separate "temporary" nav arrays in pages/layouts.
+- Building dynamic URLs inline when a path helper should exist.

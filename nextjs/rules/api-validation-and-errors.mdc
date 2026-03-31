@@ -1,0 +1,6 @@
+# api-validation-and-errors.mdc
+
+- Validate request bodies, query params, and headers in `app/api/**/route.ts` handlers using a shared schema approach (e.g. Zod). Reject invalid input with `4xx` status codes.
+- Use a consistent JSON shape for errors across API routes (e.g. `{ "error": string }` or `{ "errors": [...] }` — match the project convention once established).
+- Do not leak stack traces or internal details in production responses.
+- Do not read server-only secrets in code paths that can run in the browser; API routes are server-side — still avoid exposing secrets in response bodies.

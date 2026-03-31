@@ -1,0 +1,33 @@
+---
+description: Enforce config-first architecture and single sources of truth
+alwaysApply: true
+---
+
+# Config-first architecture
+
+Keep app-wide values in dedicated config/lib modules. Do not scatter route strings, brand copy, SEO defaults, or navigation structures across page components.
+
+## Mandatory single sources of truth
+
+- `src/config/site.ts` for site identity, host/base URL, and global brand values.
+- `src/config/navigation.ts` for header/main navigation data.
+- `src/config/footer.ts` for footer link groups and legal links.
+- `src/lib/paths.ts` for canonical route constants and route helpers.
+- `src/lib/metadata.ts` for shared metadata defaults/builders.
+- `src/lib/schema.ts` for JSON-LD/structured data builders.
+
+If any file is missing in a new project, create the startup scaffold first, then implement features.
+
+## Required workflow for new public routes
+
+1. Add route constants/helper functions in `src/lib/paths.ts`.
+2. Wire route into `src/config/navigation.ts` and/or `src/config/footer.ts` when applicable.
+3. Reuse metadata/schema helpers from `src/lib/metadata.ts` and `src/lib/schema.ts`.
+4. Render route links by importing config/path helpers rather than hardcoded strings.
+
+## Prohibited patterns
+
+- Inline nav arrays inside components.
+- Duplicated footer link definitions in multiple files.
+- Copy-pasted site name, base URL, or social handles in page files.
+- Page-local ad hoc metadata defaults that should live in `src/lib/metadata.ts`.

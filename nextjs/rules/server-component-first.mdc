@@ -1,0 +1,23 @@
+---
+description: Keep React Server Components as the default rendering model
+alwaysApply: true
+---
+
+# Server component first
+
+- Default to Server Components.
+- Use Client Components only when required.
+
+Client Components are allowed when:
+
+- user interaction is needed,
+- browser APIs are used,
+- a required third-party library only works on the client.
+
+Avoid:
+
+- unnecessary `"use client"`,
+- wrapping entire pages/layouts in client components,
+- moving SEO-relevant content into client-only wrappers without necessity.
+
+Prefer minimal client-side JavaScript and isolate client behavior in small leaf components.

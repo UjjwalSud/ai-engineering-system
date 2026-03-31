@@ -13,10 +13,19 @@ It combines:
 
 ## Structure
 
+This repository is organized by **technology stack**, where each stack has its own isolated AI system.
+
+### Available Systems
+
+- `dotnet/` → Clean Architecture backend system (.NET)
+- `nextjs/` → SEO-first frontend system (Next.js)
+
+Each system contains:
+
+- `AGENTS.md` → Core instructions for that stack
 - `docs/` → Architecture, decisions, and reference patterns
 - `prompts/` → Reusable prompts for common development tasks
-- `rules/` → Guidelines to keep code consistent and maintainable
-- `AGENTS.md` → How everything ties together
+- `rules/` → Guidelines to enforce consistency and best practices
 
 ---
 
@@ -24,10 +33,11 @@ It combines:
 
 Instead of writing everything from scratch each time, I:
 
-1. Start with a clear module plan
-2. Use prompts to generate consistent outputs
-3. Follow rules to maintain architecture boundaries
-4. Refer to existing modules for alignment
+1. Choose the relevant system (`dotnet` or `nextjs`)
+2. Start with a clear plan based on that system’s architecture
+3. Use prompts to generate consistent outputs
+4. Follow rules to maintain structure and boundaries
+5. Refer to existing patterns for alignment
 
 ---
 
@@ -37,13 +47,7 @@ Over time, I found that:
 
 - Ad-hoc development leads to inconsistency
 - Repeated patterns can be standardized
-- A small system like this improves speed and quality
+- Different stacks require different architectural rules
+- A structured system improves speed, quality, and predictability
 
-This repository is my attempt to keep things structured and predictable.
-
----
-
-## Notes
-
-- This is a working setup, not a framework
-- It evolves as projects grow
+This repository is my attempt to keep development consistent across projects and technologies.
