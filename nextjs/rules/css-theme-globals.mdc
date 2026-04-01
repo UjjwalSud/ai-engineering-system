@@ -1,0 +1,40 @@
+﻿---
+description: Theme tokens and dark mode live in globals.css; semantic Tailwind usage; no ad hoc palette literals for surfaces
+alwaysApply: true
+---
+
+# CSS theme — globals.css as source of truth
+
+This project keeps **presentation tokens** (colors, surfaces, borders, semantic text colors, and dark mode) in **[src/app/globals.css](src/app/globals.css)**, not scattered across components as raw palette utilities.
+
+Works together with [styling-standards.mdc](styling-standards.mdc) (Tailwind usage, no inline CSS except narrow exceptions).
+
+## Single source of truth
+
+- **Semantic CSS custom properties** — Define shared visual tokens on `:root` (e.g. surfaces, borders, muted text). **Do not** encode the same theme as one-off `zinc-*` / `slate-*` / `neutral-*` class chains in JSX when a token exists.
+- **Dark mode in one place** — Override those variables in a **single** dark block: `@media (prefers-color-scheme: dark)` and/or a `.dark` selector on `<html>` if the app adds a manual toggle. **Avoid** repeating `dark:bg-*` / `dark:text-*` / `dark:border-*` for every theme-driven color when variables + semantic utilities cover it.
+- **Tailwind v4 bridge** — Map tokens through `@theme inline` so components use **semantic** utilities (e.g. `bg-surface`, `text-muted`, `border-border`) backed by `var(--...)` from `globals.css`.
+
+## What belongs in components (TSX)
+
+- **Structural layout** — `flex`, `grid`, `gap-*`, `min-h-0`, responsive width, etc., when they are layout, not brand theme.
+- **Semantic theme application** — Prefer one token-backed class per concern instead of light/dark palette pairs.
+
+## What belongs in globals.css
+
+- New or changed **theme colors**, **surface levels**, **border defaults**, **input/elevated backgrounds**.
+- Optional **`@layer components`** for repeated presentation blocks (e.g. shell, sidebar, profile card) so long utility strings are not duplicated in JSX.
+
+## Anti-patterns
+
+- Introducing **new** raw palette utilities (`bg-zinc-950`, `dark:border-zinc-800`, …) for surfaces that should use existing tokens.
+- **Duplicating** dark styling as many `dark:` variants instead of flipping CSS variables once.
+- **`style={{}}`** for static theme colors (see styling-standards for allowed exceptions).
+
+## When adding a new visual need
+
+1. Add or extend a **variable** in `globals.css` (light + dark).
+2. Expose it in **`@theme`** if it should be used as a Tailwind color utility.
+3. Use the **semantic utility** in components—or a **single component class** in `@layer components` if the block is repeated.
+
+If a third-party or one-off requires a fixed color, isolate it and do not spread literals across the UI layer.

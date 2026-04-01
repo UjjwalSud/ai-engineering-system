@@ -1,4 +1,4 @@
----
+﻿---
 description: Enforce Tailwind-first, reusable, maintainable styling patterns
 alwaysApply: true
 ---
@@ -6,6 +6,8 @@ alwaysApply: true
 # Styling standards
 
 Use Tailwind CSS as the default styling system. Keep styling consistent, token-based, and reusable across pages/components.
+
+**Theme and dark mode:** Follow [css-theme-globals.mdc](css-theme-globals.mdc) — semantic tokens live in `src/app/globals.css`; do not scatter raw palette `dark:` chains for theme surfaces.
 
 ## Core rules
 

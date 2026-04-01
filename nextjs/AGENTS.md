@@ -88,6 +88,7 @@ Visual consistency should come from reusable patterns, shared classes/components
 | [server-component-first.mdc](rules/server-component-first.mdc) | RSC default; `"use client"` only when needed |
 | [ui-consistency-rule.mdc](rules/ui-consistency-rule.mdc) | Reuse sections; consistent layout and typography |
 | [styling-standards.mdc](rules/styling-standards.mdc) | Tailwind-first styling; avoid inline CSS; reuse tokens/patterns |
+| [css-theme-globals.mdc](rules/css-theme-globals.mdc) | Theme tokens + dark mode in globals.css; semantic utilities; no ad hoc palette chains |
 | [api-validation-and-errors.mdc](rules/api-validation-and-errors.mdc) | Validate API inputs; consistent JSON errors |
 | [minimal-surgical-changes.mdc](rules/minimal-surgical-changes.mdc) | Small, focused diffs; do not refactor unrelated code |
 | [imports-path-alias.mdc](rules/imports-path-alias.mdc) | Prefer `@/` (or project alias) over deep relatives |
