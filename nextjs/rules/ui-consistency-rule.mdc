@@ -1,7 +1,13 @@
-# ui-consistency-rule.mdc
+---
+description: Reuse shared UI patterns; extract sections only when justified
+alwaysApply: true
+---
+
+# UI consistency
 
 - Reuse existing section components before creating new ones.
 - Avoid creating multiple variations of the same UI pattern.
 - Maintain consistent spacing, typography, and layout.
-- Use shared components for repeated patterns.
+- Use shared components for **repeated** patterns — not for one-off static legal prose (see [`page-composition.mdc`](page-composition.mdc)).
 - Keep visual consistency across all pages.
+- Prefer semantic theme utilities / shared classes over one-off visual variants.

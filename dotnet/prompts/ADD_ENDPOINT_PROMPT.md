@@ -25,4 +25,4 @@ Add a new endpoint to the [ModuleName] module. Follow the architecture in `.curs
 - Service implementation
 - Controller action
 
-**Constraints:** Follow existing controller patterns. Use MustHavePermission and OpenApiOperation. Keep controller thin—delegate to service.
+**Constraints:** Follow existing controller patterns. Use MustHavePermission and OpenApiOperation. Keep controller thin—delegate to service. If the endpoint needs another domain’s data, call that domain’s `I*Service`—do not query foreign DbSets from this module’s service (see `.cursor/rules/cross-domain-service-boundary.mdc`).

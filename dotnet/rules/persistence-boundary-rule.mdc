@@ -1,7 +1,7 @@
 ---
 description: Application and Domain must not reference Infrastructure
 globs: src/Core/Application/**/*.cs, src/Core/Domain/**/*.cs
-alwaysApply: false
+alwaysApply: true
 ---
 
 # Persistence Boundary Rule

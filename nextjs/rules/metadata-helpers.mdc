@@ -1,0 +1,29 @@
+---
+description: Shared metadata builders — buildPageMetadata / buildRootMetadata, canonicals, OG
+globs: src/lib/metadata.ts,src/app/**/page.tsx,src/app/layout.tsx,src/app/robots.ts,src/app/sitemap.ts
+alwaysApply: false
+---
+
+# Metadata helpers
+
+## Use shared builders
+
+- Root layout: `buildRootMetadata()` (`metadataBase`, title template, default robots).
+- Each public page: `buildPageMetadata({ title, description, path, ogImage?, noIndex? })`.
+- Build absolute URLs with `absoluteUrl` / `getSiteUrl()` — do not concatenate `site` host ad hoc.
+
+## Canonical and home
+
+- Home canonical includes trailing slash: `` `${absoluteUrl(paths.home)}/` ``.
+- Home title may use `{ absolute: title }` when the full title is already brand-complete.
+- Non-home titles use `| ${site.name}` via the shared formatter / template.
+
+## OG / Twitter
+
+- Set `openGraph.locale` from `site.ogLocale`, `siteName`, absolute image (default `site.defaultOgImage`).
+- Twitter: `summary_large_image` with the same title/description/image.
+
+## Sitemap / robots
+
+- Prefer `getSiteUrl()` for sitemap and robots `sitemap` URL.
+- Home sitemap entry should use trailing `/` to match canonical.

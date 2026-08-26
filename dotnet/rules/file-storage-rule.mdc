@@ -1,0 +1,29 @@
+---
+description: Upload and read files only through IFileStorageService and FileUploadRequest
+globs: src/**/*.cs
+alwaysApply: true
+---
+
+# File storage
+
+All file uploads and stored-file reads go through `IFileStorageService` and `FileUploadRequest` (under Application Common / FileStorage). Do not invent a parallel upload path or persist client base64 onto entities.
+
+## Request / UI
+
+- Create/Update request DTOs use `FileUploadRequest?` for file fields.
+- Clients map uploads into `FileUploadRequest` (name, data, extension). Do not send a raw base64 string as the request image/file field when the API expects `FileUploadRequest`.
+
+## Persist / read
+
+- Save with `UploadAsync<T>(request, FileType.Image, ct)` (or the project’s `FileType`) — entity columns store the **file path**, not the payload.
+- API responses that need an image use `FileToBase64StringAsync(path, ct)` (`string?`; null if missing).
+- Replace an existing file: `UploadAsync` then `RemoveAsync` the previous path.
+
+```csharp
+// BAD — persist request payload on the entity
+entity.Logo = request.Logo;
+
+// GOOD
+entity.Logo = await _fileStorage.UploadAsync<Organizations>(request.Logo, FileType.Image, ct);
+result.Logo = await _fileStorage.FileToBase64StringAsync(entity.Logo, ct);
+```

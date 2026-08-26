@@ -22,8 +22,8 @@ This document defines reusable UI composition patterns to prevent random, one-of
 
 ## Header and footer expectations
 
-- Header navigation is rendered from `src/config/navigation.ts`.
-- Footer links are rendered from `src/config/footer.ts`.
+- Header navigation is rendered from `src/config/site.ts` (`site.navigation`); labels from `UiText`.
+- Footer links are rendered from `src/config/site.ts` (`site.footer` / `site.socialLinks`); labels from `UiText`.
 - Route strings should come from `src/lib/paths.ts`, not inline literals.
 - Visual style may vary by project brand, but information architecture should stay centralized.
 

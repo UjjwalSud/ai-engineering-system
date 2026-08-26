@@ -9,21 +9,20 @@ Keep app-wide values in dedicated config/lib modules. Do not scatter route strin
 
 ## Mandatory single sources of truth
 
-- `src/config/site.ts` for site identity, host/base URL, and global brand values.
-- `src/config/navigation.ts` for header/main navigation data.
-- `src/config/footer.ts` for footer link groups and legal links.
+- `src/config/site.ts` for site identity, host/base URL, global brand values, **header navigation** (`site.navigation`), **footer** (`site.footer`), and **socialLinks** (`site.socialLinks`). Nav/footer **labels** come from `UiText`.
+- `src/constants/uiText` (`UiText`) for static user-facing copy (labels, aria, placeholders).
 - `src/lib/paths.ts` for canonical route constants and route helpers.
-- `src/lib/metadata.ts` for shared metadata defaults/builders.
-- `src/lib/schema.ts` for JSON-LD/structured data builders.
+- `src/lib/metadata.ts` for shared metadata defaults/builders (`buildRootMetadata`, `buildPageMetadata`, `absoluteUrl`).
+- `src/lib/schema.ts` for **shared** JSON-LD helpers only (`jsonLdScript`, `breadcrumbSchema`, `organizationSchema`). Page schemas stay on each `page.tsx` as `{pageName}PageSchema()`.
 
 If any file is missing in a new project, create the startup scaffold first, then implement features.
 
 ## Required workflow for new public routes
 
 1. Add route constants/helper functions in `src/lib/paths.ts`.
-2. Wire route into `src/config/navigation.ts` and/or `src/config/footer.ts` when applicable.
-3. Reuse metadata/schema helpers from `src/lib/metadata.ts` and `src/lib/schema.ts`.
-4. Render route links by importing config/path helpers rather than hardcoded strings.
+2. Wire route into `site.navigation` and/or `site.footer` in `src/config/site.ts` when applicable.
+3. Use `buildPageMetadata` from `src/lib/metadata.ts`; add `{pageName}PageSchema()` on the page; reuse `breadcrumbSchema` / `jsonLdScript` from `src/lib/schema.ts`.
+4. Render route links by importing path helpers rather than hardcoded strings.
 
 ## Prohibited patterns
 

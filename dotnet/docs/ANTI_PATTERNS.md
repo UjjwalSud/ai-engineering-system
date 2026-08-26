@@ -14,6 +14,10 @@ Do not do these. They fight the existing codebase.
 - Do not reference Infrastructure from Application or Domain.
 - Do not put business logic in controllers.
 - Do not add DbContext to the Application layer.
+- Do not query another domain’s entities via `DbContext` from a consumer service — call the owning `I*Service` (see `cross-domain-service-boundary.mdc`).
+- Do not persist file uploads without `IFileStorageService` / `FileUploadRequest` (see `file-storage-rule.mdc`).
+- Do not add private static string helpers in services when a Shared helper should own them (see `shared-helpers-rule.mdc`).
+- Do not skip `AsNoTracking()` on read-only queries that map to View/DTO and never mutate those rows (see `ef-asnotracking-rule.mdc`).
 - Do not introduce domain events unless explicitly requested.
 - Do not add CQRS unless explicitly requested.
 - Do not put test/debug classes in production (e.g. `Test : INotificationMessage`).

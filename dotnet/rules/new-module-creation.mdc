@@ -1,7 +1,7 @@
 ---
 description: Checklist and patterns for creating new modules in Clean Architecture API
 globs: src/**/*.cs
-alwaysApply: false
+alwaysApply: true
 ---
 
 # New Module Creation Guide

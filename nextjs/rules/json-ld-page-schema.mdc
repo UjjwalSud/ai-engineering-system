@@ -1,0 +1,45 @@
+---
+description: Page-local JSON-LD — {pageName}PageSchema on each page; shared helpers only in lib/schema
+globs: src/app/**/page.tsx,src/lib/schema.ts
+alwaysApply: false
+---
+
+# JSON-LD page schemas
+
+## Placement
+
+- Define **`{pageName}PageSchema()`** on the page itself (e.g. `homePageSchema`, `termsPageSchema`, `articlePageSchema`).
+- Do **not** put page schemas in `src/lib/schema.ts`.
+- `lib/schema.ts` only: `jsonLdScript`, `breadcrumbSchema`, `organizationSchema`, shared ids/helpers.
+
+## Shape
+
+```ts
+function cookiePolicyPageSchema() {
+  const pageUrl = absoluteUrl(paths.cookiePolicy);
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: title,
+        description,
+        inLanguage: site.locale,
+      },
+      breadcrumbSchema([
+        { name: "Home", path: paths.home },
+        { name: title, path: paths.cookiePolicy },
+      ]),
+    ],
+  };
+}
+```
+
+Render with `dangerouslySetInnerHTML={jsonLdScript(cookiePolicyPageSchema())}`.
+
+## Home / sitewide
+
+- Home graph typically includes Organization + WebSite (+ optional `SearchAction` when the product has search) + WebPage.
+- Detail/list schemas (Article, Product, JobPosting, etc.) live on that page — not in `lib/`.

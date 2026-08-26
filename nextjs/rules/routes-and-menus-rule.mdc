@@ -10,8 +10,8 @@ All route and menu wiring must use centralized config and helpers. Do not hardco
 ## Required sources
 
 - `src/lib/paths.ts` is the canonical route source.
-- `src/config/navigation.ts` owns header/main menu definitions.
-- `src/config/footer.ts` owns footer menu/link definitions.
+- `src/config/site.ts` (`site.navigation`) owns header/main menu definitions.
+- `src/config/site.ts` (`site.footer` / `site.socialLinks`) owns footer menu/link definitions.
 
 ## Path patterns
 
@@ -29,7 +29,7 @@ Components should consume these exports directly instead of string concatenation
 When adding or changing a public route:
 
 1. Add/update the route in `src/lib/paths.ts`.
-2. Add/update navigation and footer config where the route should appear.
+2. Add/update `site.navigation` and/or `site.footer` where the route should appear.
 3. Use imported path values in links (`Link`, menu renderers, CTA components).
 4. Keep `sitemap`, canonical logic, and metadata helpers aligned with the same route source where possible.
 

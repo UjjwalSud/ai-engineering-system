@@ -12,9 +12,9 @@ Implement a feature slice with minimal, surgical changes while preserving SEO-fi
 2. Describe architecture impact and list all planned file changes.
 3. Respect App Router boundaries and Server Components by default.
 4. Route strings must come from `src/lib/paths.ts` (include dynamic helpers where needed).
-5. Header/footer/menu data must come from `src/config/navigation.ts` and `src/config/footer.ts`.
-6. Reuse existing section/UI components before creating new variants.
-7. Ensure metadata, canonical URLs, and social metadata are addressed for affected public pages.
+5. Header/footer/menu data must come from `src/config/site.ts` (`site.navigation` / `site.footer`); labels from `UiText`.
+6. Reuse existing section/UI components before creating new variants (see page-composition).
+7. Ensure metadata (`buildPageMetadata`), canonical URLs, social metadata, and page JSON-LD are addressed for affected public pages.
 8. For forms/APIs, include validation, safe errors, and basic abuse controls.
 9. Avoid unrelated refactors; keep scope focused.
 10. Keep styling Tailwind-first; avoid inline CSS unless runtime-only constraints require it.

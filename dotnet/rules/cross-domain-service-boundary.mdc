@@ -1,0 +1,49 @@
+---
+description: Use owning-domain services for foreign entities; do not query another domain via DbContext
+globs: src/Infrastructure/**/*.cs
+alwaysApply: true
+---
+
+# Cross-Domain Service Boundary
+
+When a service needs data or behavior owned by another domain/module, call that domain's **service interface**. Do **not** query that domain's entities through `DbContext` from the calling service.
+
+## Rule
+
+- Each domain owns its entities and the queries/writes for them (e.g. Catalog owns `Products` via `IProductService`).
+- A service may use `DbContext` only for **entities it owns** (or that clearly belong to its module).
+- Cross-domain reads/writes go through the owning `I*Service` (inject and call methods; add methods on that interface when missing).
+
+## Examples
+
+```csharp
+// BAD — Orders service reaching into Catalog tables
+var product = await _db.Products
+    .Where(x => x.Id == productId)
+    .FirstOrDefaultAsync(ct);
+
+// GOOD — use Catalog service
+var product = await _productService.GetByIdAsync(productId, ct);
+var names = await _productService.GetNamesByIdsAsync(productIds, ct);
+```
+
+```csharp
+// BAD — Orders service updating Customer tables when CustomerService owns that flow
+_db.Customers.Update(customer);
+
+// GOOD — call ICustomerService (or the owning module service)
+await _customerService.UpdateAsync(...);
+```
+
+## When adding a capability
+
+If the owning service has no method for what you need:
+
+1. Add the method to the owning `I*Service` + implementation
+2. Call it from the consumer service
+3. Do not duplicate the DbSet query in the consumer
+
+## Allowed
+
+- Injecting and calling other Application service interfaces from Infrastructure services
+- Using `DbContext` for the current module’s own entities

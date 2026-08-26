@@ -1,0 +1,76 @@
+---
+description: MUST rules for marketing page composition — stubs vs inline body vs sections
+globs: src/app/**/page.tsx,src/components/sections/**
+alwaysApply: true
+---
+
+# Page composition (MUST)
+
+How marketing `page.tsx` files are built. Prefer fewer files for static copy; extract only when justified.
+
+## MUST — choose the right page shape
+
+| Page kind | MUST do | MUST NOT |
+|-----------|---------|----------|
+| **Nav / listing stub** (thin unfinished listing or about) | Use a shared shell (e.g. `MarketingShellPage`) + shared metadata helper (includes shared `PageHero`) | Invent a one-off duplicate shell layout |
+| **Static one-off content** (terms, privacy, cookies, simple legal/about with real copy) | Put article markup **inline in `page.tsx`** (metadata + `{pageName}PageSchema` + body); use shared **`PageHero`** for title/breadcrumb chrome | Create a page-only wrapper like `TermsDocument` / `PrivacyDocument` with no reuse |
+| **Product / interactive UI** (home hero, contact form, cards, filters) | Keep page as Server Component; extract **reusable or client** pieces to `components/sections/<usage>/` (or `ui/`) | Wrap the whole page in `"use client"`; extract static legal prose “for thinness” alone |
+
+## MUST — shared inner-page chrome
+
+- Inner marketing pages (not home) use `PageHero` (or equivalent shared chrome) for breadcrumb + H1 (+ optional eyebrow/description/image).
+- Hero images come from config (e.g. `PAGE_HERO_IMAGES` / path helpers in `src/config/site.ts`) — not hardcoded URLs in pages.
+- Home keeps its own hero; do not put inner-page `PageHero` on the home route.
+
+## MUST — section folders (by usage)
+
+Group under `src/components/sections/`:
+
+| Folder | Use for |
+|--------|---------|
+| `chrome/` | Shared inner-page chrome (`PageHero`, marketing shell) |
+| Feature folders (e.g. `contact/`, `browse/`) | Feature-area sections when that area grows |
+
+Add a new usage folder when a feature area grows; do not dump unrelated sections at the `sections/` root.
+
+## MUST — when to extract a section
+
+Extract to `src/components/sections/<usage>/` only if at least one is true:
+
+1. **Reused** on more than one route, or clearly shared soon.
+2. **Client interactivity** (`"use client"`, forms, browser APIs) — keep a small leaf.
+3. **Multi-block product UI** where the route would otherwise mix several distinct interactive/composable blocks (e.g. home hero + listings).
+
+Do **not** extract solely to “keep `page.tsx` thin” when the body is static, route-specific prose.
+
+## MUST — page always owns SEO wiring
+
+- Metadata via `buildPageMetadata` (or a shared shell metadata helper for stubs).
+- JSON-LD as `{pageName}PageSchema()` on the page (stubs may use the helper’s built-in schema).
+- Shared helpers only in `lib/schema.ts` / `lib/metadata.ts`.
+
+## Examples
+
+```tsx
+// Stub — OK (PageHero inside shared shell)
+<MarketingShellPage title={…} description={…} path={paths.about} body="…" />
+
+// Legal / static — OK (PageHero + inline body on page.tsx)
+<>
+  <PageHero title={…} breadcrumbs={[…]} image={PAGE_HERO_IMAGES.terms} />
+  <Container as="article">…sections of copy…</Container>
+</>
+
+// Contact when form exists — OK
+<>
+  <Container>…intro copy…</Container>
+  <ContactForm /> {/* client leaf in sections/ */}
+</>
+```
+
+```tsx
+// BAD — one-off section with no reuse/interaction
+// components/sections/TermsDocument.tsx used only by terms/page.tsx
+```
+
+Related: [`server-component-first.mdc`](server-component-first.mdc), [`json-ld-page-schema.mdc`](json-ld-page-schema.mdc), [`ui-consistency-rule.mdc`](ui-consistency-rule.mdc).

@@ -1,0 +1,32 @@
+---
+description: Put reusable utilities on existing Shared helpers; do not bury them in services
+globs: src/**/*.cs
+alwaysApply: true
+---
+
+# Shared helpers
+
+Reusable string/value utilities belong on existing helper classes in `src/Core/Shared/Common/`. Do not add private static helpers in a service when an existing helper already covers it, or when the logic is generic (trim, coalesce, initials, hex, URL).
+
+## Where
+
+| Kind | Location |
+|------|----------|
+| String trim / empty / fallback | `Shared/Common/StringHelper` (`Normalize`, `Coalesce`, `NormalizeInitials`, or project equivalents) |
+| Validation helpers | `Shared/Common/Validation/` (e.g. hex color, HTTP URL helpers) |
+| Domain-only logic | That module (e.g. `AppointmentSlotHelper`) — not Shared |
+
+## Rules
+
+- Prefer shared `StringHelper` (or project equivalent) over local `IsNullOrWhiteSpace` + trim + default.
+- Add a method on the existing helper before creating a new helper class.
+- A new helper class is only for a distinct concern that does not fit `StringHelper` or an existing Validation helper.
+
+```csharp
+// BAD — private helper in a service
+private static string NormalizeInitials(string? initials) =>
+    string.IsNullOrWhiteSpace(initials) ? "NA" : initials.Trim();
+
+// GOOD
+entity.Initials = StringHelper.NormalizeInitials(request.Initials);
+```

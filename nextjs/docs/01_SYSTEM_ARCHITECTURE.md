@@ -38,14 +38,15 @@ src/
     ui/           # Primitive UI building blocks
 
   config/
-    site.ts
-    navigation.ts
-    footer.ts
+    site.ts       # identity + navigation + footer + socialLinks
+
+  constants/
+    uiText/       # UiText — static user-facing copy
 
   lib/
     paths.ts
     metadata.ts
-    schema.ts     # Shared Zod schemas / JSON-LD helpers as needed
+    schema.ts     # Shared JSON-LD helpers only (page schemas live on page.tsx)
     utils.ts
 
   types/
@@ -64,11 +65,12 @@ These must not be duplicated or hardcoded in random components:
 | Concern | Location |
 |---------|-----------|
 | URL paths / route constants | `src/lib/paths.ts` |
-| Header / primary nav | `src/config/navigation.ts` |
-| Footer links | `src/config/footer.ts` |
+| Header / primary nav | `src/config/site.ts` (`site.navigation`) |
+| Footer links | `src/config/site.ts` (`site.footer` / `site.socialLinks`) |
 | Site name, URLs, social defaults | `src/config/site.ts` |
-| Default SEO / metadata helpers | `src/lib/metadata.ts` |
-| Structured data helpers | `src/lib/schema.ts` |
+| Static UI copy (labels, aria, placeholders) | `src/constants/uiText` (`UiText`) |
+| Default SEO / metadata helpers | `src/lib/metadata.ts` (`buildRootMetadata`, `buildPageMetadata`) |
+| Shared structured data helpers | `src/lib/schema.ts` (page schemas on each `page.tsx`) |
 
 Related rules: [`config-first.mdc`](../rules/config-first.mdc), [`no-hardcoding-rule.mdc`](../rules/no-hardcoding-rule.mdc), [`routes-and-menus-rule.mdc`](../rules/routes-and-menus-rule.mdc).
 
@@ -79,8 +81,7 @@ Related rules: [`config-first.mdc`](../rules/config-first.mdc), [`no-hardcoding-
 Before feature work begins, initialize and use these files:
 
 - `src/config/site.ts`
-- `src/config/navigation.ts`
-- `src/config/footer.ts`
+- `src/constants/uiText`
 - `src/lib/paths.ts`
 - `src/lib/metadata.ts`
 - `src/lib/schema.ts`

@@ -1,7 +1,7 @@
 ---
 description: Controllers must be thin
 globs: src/Host/Controllers/**/*.cs
-alwaysApply: false
+alwaysApply: true
 ---
 
 # Controller Thin Rule

@@ -25,6 +25,9 @@ What exists today that differs from ideal:
 **Apply to new code now.** When creating new modules or services:
 
 - Add `CancellationToken cancellationToken = default` to all async service methods and pass it through to EF calls.
+- Use `AsNoTracking()` on read-only EF queries that return View/DTO and never mutate those rows (see `ef-asnotracking-rule.mdc`).
+- Cross-domain reads/writes go through the owning module’s `I*Service`, not foreign `DbSet`s (see `cross-domain-service-boundary.mdc`).
+- File uploads/reads go through `IFileStorageService` / `FileUploadRequest` when the project has that abstraction (see `file-storage-rule.mdc`).
 - Enable FluentValidation exception handling when validators exist (uncomment `ValidationException` handling in `ExceptionMiddleware`, add validators for new Request DTOs).
 
 ---
@@ -71,6 +74,6 @@ What exists today that differs from ideal:
 
 ## 5. Summary
 
-- **Adopt for new code**: CancellationToken, FluentValidation (when validators exist).
+- **Adopt for new code**: CancellationToken, AsNoTracking on read-only DTO queries, owning-domain services for cross-module data, FluentValidation (when validators exist).
 - **Do not auto-introduce**: Repositories, MediatR, CQRS, domain events, singular naming.
 - **Backlog**: Extract auditing logic, fix Host→Migrator coupling, remove test code.

@@ -13,5 +13,6 @@ alwaysApply: true
 - Do not introduce repositories or CQRS unless explicitly requested
 - Do not change plural entity naming unless asked
 - Prefer existing project conventions over generic best practices
+- Cross-domain data: use the owning domain’s service (`I*Service`), never query another domain’s entities via DbContext in the consumer (see `cross-domain-service-boundary.mdc`)
 - See .cursor/docs/01_SYSTEM_ARCHITECTURE.md for structure
 - See .cursor/docs/ANTI_PATTERNS.md for what not to do

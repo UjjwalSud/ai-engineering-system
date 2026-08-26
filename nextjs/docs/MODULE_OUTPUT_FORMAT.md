@@ -25,7 +25,7 @@ Document new or touched paths, for example:
 ```txt
 src/app/(marketing)/pricing/page.tsx
 src/components/sections/PricingCards.tsx
-src/config/navigation.ts   # update
+src/config/site.ts          # update navigation/footer as needed
 src/lib/paths.ts           # update
 ```
 
@@ -44,9 +44,8 @@ src/lib/paths.ts           # update
 Check all that apply and describe the change:
 
 - [ ] `src/lib/paths.ts` — new path constants
-- [ ] `src/config/navigation.ts` — new nav items or order
-- [ ] `src/config/footer.ts` — new footer links
-- [ ] `src/config/site.ts` — site-wide values
+- [ ] `src/config/site.ts` — nav/footer/social + site-wide values
+- [ ] `src/constants/uiText` — new/updated static copy keys
 - [ ] `src/lib/metadata.ts` — new helpers or defaults
 
 **Rule:** no hardcoded routes or nav in JSX — see [`config-first.mdc`](../rules/config-first.mdc).
@@ -145,8 +144,8 @@ src/app/(marketing)/about/page.tsx                # new
 src/components/sections/PageIntro.tsx             # reuse (existing)
 src/components/sections/StatsSection.tsx          # reuse (existing)
 src/lib/paths.ts                                  # update
-src/config/navigation.ts                          # update
-src/config/footer.ts                              # update (optional, if footer should link About)
+src/config/site.ts                                # update nav/footer (About link if required)
+src/constants/uiText                              # update labels if needed
 src/lib/metadata.ts                               # update (helper usage or defaults)
 ```
 
@@ -161,9 +160,8 @@ src/lib/metadata.ts                               # update (helper usage or defa
 ### 3. Config and single source of truth
 
 - [x] `src/lib/paths.ts` — add `about`
-- [x] `src/config/navigation.ts` — add About nav item
-- [x] `src/config/footer.ts` — add About link if required
-- [ ] `src/config/site.ts` — no change
+- [x] `src/config/site.ts` — add About nav/footer items
+- [x] `src/constants/uiText` — About labels if needed
 - [x] `src/lib/metadata.ts` — generate page metadata via helper
 
 ### 4. SEO
@@ -199,7 +197,7 @@ No API route changes required.
 ### 8. Output summary for reviewer
 
 1. **Files created**: `src/app/(marketing)/about/page.tsx`
-2. **Files updated**: `src/lib/paths.ts`, `src/config/navigation.ts`, optional `src/config/footer.ts`, `src/lib/metadata.ts`
+2. **Files updated**: `src/lib/paths.ts`, `src/config/site.ts`, `src/constants/uiText`, `src/lib/metadata.ts`
 3. **Config / SEO changes**: centralized path/nav update + About metadata
 4. **Reuse vs new**: reused existing sections/components; no unnecessary UI variants
 5. **Assumptions**: About should be public and indexable

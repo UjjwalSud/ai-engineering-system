@@ -1,4 +1,9 @@
-# no-hardcoding-rule.mdc
+---
+description: Do not hardcode routes, nav, footer, metadata defaults, site settings, or UI copy
+alwaysApply: true
+---
+
+# No hardcoding
 
 Do not hardcode:
 
@@ -7,9 +12,12 @@ Do not hardcode:
 - footer links
 - metadata defaults
 - site settings
+- **user-facing UI copy** (labels, buttons, placeholders, aria-labels)
 
 Always use:
-- config files
+
+- config files (`site.ts`, `paths.ts`)
 - shared utilities
+- **`UiText` from `src/constants/uiText`** for static UI strings (see `ui-text-constants.mdc`)
 
 Hardcoding leads to inconsistency and must be avoided.

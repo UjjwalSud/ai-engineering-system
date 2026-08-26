@@ -20,4 +20,5 @@ Refactor the [ServiceName] service. Follow the architecture in `.cursor/docs/01_
 - Preserve existing behavior
 - Add CancellationToken to async methods (approved improvement)
 - Use existing error handling (NotFoundException, BadRequestException)
+- Cross-domain: call the owning domain’s `I*Service` for foreign entities; do not query another domain’s DbSets from this service (see `.cursor/rules/cross-domain-service-boundary.mdc`)
 - See `.cursor/docs/ANTI_PATTERNS.md` for what not to do

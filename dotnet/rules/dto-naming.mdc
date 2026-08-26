@@ -1,7 +1,7 @@
 ---
 description: DTO naming conventions
 globs: src/Core/Application/**/Model/**/*.cs
-alwaysApply: false
+alwaysApply: true
 ---
 
 # DTO Naming

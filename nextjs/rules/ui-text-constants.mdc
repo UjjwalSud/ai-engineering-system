@@ -1,0 +1,48 @@
+---
+description: Static user-facing copy must live in src/constants/uiText (UiText), not hardcoded in components.
+alwaysApply: true
+---
+
+# Static UI text (`UiText`)
+
+All **user-visible static strings** come from `src/constants/uiText` via `UiText`.
+
+## Source of truth
+
+| Concern | Location |
+|---------|----------|
+| Labels, buttons, placeholders, aria-labels, empty states, toasts, page body copy | `src/constants/uiText/*` → `UiText` |
+| Routes / path helpers | `src/lib/paths.ts` |
+| Nav/footer **structure** (href wiring) | `src/config/site.ts` — **labels** from `UiText` |
+| Brand **name** / locale / icon paths | `src/config/site.ts` — tagline/description from `UiText.brand` when applicable |
+| SEO builders | `src/lib/metadata.ts` (compose `UiText` + `site`) |
+
+## Rules
+
+- Do **not** hardcode UI copy in JSX/TSX (buttons, nav labels, headings, body paragraphs, hints, `aria-label`, placeholders, breadcrumbs).
+- Import: `import { UiText, formatUiText } from "@/constants/uiText"`.
+- Templates use `{name}` / `{tagline}` — resolve with `formatUiText(template, { name: site.name })`.
+- Reuse `UiText.actions.*` / `UiText.common.*` — do not redefine shared verbs in feature modules.
+- Add keys to the right module file; register new modules in `index.ts`.
+- Keep API/enum **values** separate from **display** labels.
+
+## Examples
+
+```tsx
+// ❌ BAD
+<button aria-label="Search">Search</button>
+
+// ✅ GOOD
+<button aria-label={UiText.navigation.search}>
+  {UiText.actions.search}
+</button>
+```
+
+```ts
+// ✅ site.ts — structure + UiText labels
+{ label: UiText.navigation.about, href: paths.about }
+```
+
+## Exclude
+
+Routes, permission keys, CSS class names, env vars, and user-entered / API-driven content.

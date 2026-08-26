@@ -45,4 +45,5 @@ Create a new module following the architecture in `.cursor/docs/01_SYSTEM_ARCHIT
 - Use CancellationToken in async methods
 - Do not place business logic in controllers
 - Match existing success/error handling style
+- Cross-domain: use owning `I*Service` for foreign entities; do not query another domain’s DbSets (see `.cursor/rules/cross-domain-service-boundary.mdc`)
 - See `.cursor/docs/ANTI_PATTERNS.md` for what not to do

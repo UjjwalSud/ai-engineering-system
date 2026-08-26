@@ -1,0 +1,32 @@
+---
+description: Use shared EmptyState for empty / no-results list and filter UI
+globs: src/components/**/*.tsx,src/app/**/*.tsx
+alwaysApply: false
+---
+
+# Empty state UI
+
+## Required component
+
+Use a shared `EmptyState` (`src/components/ui/EmptyState.tsx`) for empty lists, failed soft-empty data, and filter “no matches” messages.
+
+Do **not** invent one-off `<p className="…-empty">` blocks for the same pattern.
+
+```tsx
+// ❌ BAD
+<p className="browse-empty" role="status">{copy.empty}</p>
+
+// ✅ GOOD
+<EmptyState>{copy.empty}</EmptyState>
+```
+
+## Copy
+
+- Pass message text from `UiText` (or a prop already fed by `UiText`).
+- Do not hardcode empty-state strings in the component.
+
+## Styling
+
+- Default look is a shared class in `globals.css` (e.g. `.ui-empty`).
+- Use `className` only for layout context (e.g. denser dropdown padding), not a parallel empty-message system.
+- Keep `role="status"` (built into `EmptyState`) so assistive tech announces updates.

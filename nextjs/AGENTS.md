@@ -39,7 +39,7 @@ Do not use this system **as-is** for:
 2. **Config-first** — no hardcoded navigation or routes
 3. **Server Components** by default
 4. **Reusable sections** over one-off page blobs
-5. **Single source of truth** for paths, nav, footer, site settings, metadata defaults
+5. **Single source of truth** for paths, nav, footer, site settings, metadata defaults, UI copy
 6. **Consistent UI** patterns across pages
 7. **Styling consistency** — Tailwind-first, reusable classes/components, avoid inline styles
 8. **Minimal client-side JavaScript**
@@ -52,8 +52,8 @@ Do not use this system **as-is** for:
 ## Architecture at a glance
 
 - **Routes** live under `src/app/` (with route groups as needed).
-- **Composition** uses `src/components/` (`layout/`, `sections/`, `shared/`, `ui/`).
-- **Config** is centralized: `src/config/*` and `src/lib/*` single-source modules.
+- **Composition** uses `src/components/` (`shell/` or `layout/`, `sections/<usage>/`, `shared/`, `ui/`).
+- **Config** is centralized: `src/config/site.ts`, `src/lib/paths.ts`, `src/lib/metadata.ts`, `src/lib/schema.ts`, and `src/constants/uiText` (`UiText`).
 
 Details, diagrams, and API/security notes: **[docs/01_SYSTEM_ARCHITECTURE.md](docs/01_SYSTEM_ARCHITECTURE.md)**.
 
@@ -77,16 +77,24 @@ Details, diagrams, and API/security notes: **[docs/01_SYSTEM_ARCHITECTURE.md](do
 Rules in [`rules/`](./rules/) encode day-to-day constraints. They overlap on purpose (e.g. config + routes); treat them as **one policy**.
 Visual consistency should come from reusable patterns, shared classes/components, and theme/token usage rather than ad hoc inline styling.
 
+Product-specific overlays (API clients, domain framing, tenant branding) belong in the **app’s** `.cursor/rules`, not in this kit.
+
 ### Index
 
 | Rule file | Purpose |
 |-----------|---------|
 | [config-first.mdc](rules/config-first.mdc) | Menus, footer, routes from config — not inline strings |
-| [no-hardcoding-rule.mdc](rules/no-hardcoding-rule.mdc) | No hardcoded routes, nav, footer, metadata defaults, site settings |
-| [routes-and-menus-rule.mdc](rules/routes-and-menus-rule.mdc) | Central paths; header/footer use config |
+| [conventions.mdc](rules/conventions.mdc) | Living list — path slugs (`encodePathSlug` / `decodePathSlug`), plus later conventions |
+| [ui-text-constants.mdc](rules/ui-text-constants.mdc) | Static UI copy via `UiText` (`src/constants/uiText`) |
+| [no-hardcoding-rule.mdc](rules/no-hardcoding-rule.mdc) | No hardcoded routes, nav, footer, metadata defaults, site settings, UI copy |
+| [routes-and-menus-rule.mdc](rules/routes-and-menus-rule.mdc) | Central paths; header/footer use `site.ts` |
 | [seo-first.mdc](rules/seo-first.mdc) | Metadata, one H1, heading hierarchy, semantics, indexability |
+| [json-ld-page-schema.mdc](rules/json-ld-page-schema.mdc) | `{pageName}PageSchema` on page; `@graph` + breadcrumbs |
+| [metadata-helpers.mdc](rules/metadata-helpers.mdc) | `buildPageMetadata` / canonicals / OG |
 | [server-component-first.mdc](rules/server-component-first.mdc) | RSC default; `"use client"` only when needed |
+| [page-composition.mdc](rules/page-composition.mdc) | **MUST** stubs vs inline legal body vs extract sections |
 | [ui-consistency-rule.mdc](rules/ui-consistency-rule.mdc) | Reuse sections; consistent layout and typography |
+| [empty-state-ui.mdc](rules/empty-state-ui.mdc) | Shared `EmptyState` for empty / no-results UI |
 | [styling-standards.mdc](rules/styling-standards.mdc) | Tailwind-first styling; avoid inline CSS; reuse tokens/patterns |
 | [css-theme-globals.mdc](rules/css-theme-globals.mdc) | Theme tokens + dark mode in globals.css; semantic utilities; no ad hoc palette chains |
 | [api-validation-and-errors.mdc](rules/api-validation-and-errors.mdc) | Validate API inputs; consistent JSON errors |
@@ -103,9 +111,8 @@ Visual consistency should come from reusable patterns, shared classes/components
 
 Before creating pages or features, initialize these files as single sources of truth:
 
-- `src/config/site.ts`
-- `src/config/navigation.ts`
-- `src/config/footer.ts`
+- `src/config/site.ts` (identity + `navigation` + `footer` + `socialLinks`)
+- `src/constants/uiText` (`UiText` modules + index)
 - `src/lib/paths.ts`
 - `src/lib/metadata.ts`
 - `src/lib/schema.ts`
@@ -115,8 +122,8 @@ No feature implementation should bypass this baseline. If one of these files is 
 **Startup protocol (required):**
 
 1. Create/confirm this scaffold.
-2. Define base route entries in `src/lib/paths.ts` (`home`, `about`, `contact`, and dynamic helpers like `article(slug)` when needed).
-3. Wire initial header/footer from config (`navigation.ts`, `footer.ts`) using those paths.
+2. Define base route entries in `src/lib/paths.ts` (`home`, `about`, `contact`, and dynamic helpers like `article(slug)` when needed). Include `encodePathSlug` / `decodePathSlug` for dynamic slugs.
+3. Wire initial header from `site.navigation` and footer from `site.footer` / `site.socialLinks` in `site.ts`, using those paths and `UiText` for labels.
 4. Set metadata and schema defaults in `src/lib/metadata.ts` and `src/lib/schema.ts`.
 5. Only then begin feature-specific page/component work.
 

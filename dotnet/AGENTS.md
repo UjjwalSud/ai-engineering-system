@@ -141,6 +141,10 @@ Important rules include:
 - controller-thin-rule.mdc
 - dto-naming.mdc
 - persistence-boundary-rule.mdc
+- cross-domain-service-boundary.mdc
+- ef-asnotracking-rule.mdc
+- file-storage-rule.mdc
+- shared-helpers-rule.mdc
 - general-clean-architecture.mdc
 
 ---

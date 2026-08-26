@@ -1,0 +1,28 @@
+---
+description: Accumulating app conventions — path slugs, and later one-off standards we keep adding
+alwaysApply: true
+---
+
+# App conventions (living list)
+
+Append new bullets here when a pattern must be reused across the project. Do not re-implement these helpers inline.
+
+## Path slugs (`src/lib/paths.ts`)
+
+API or CMS slugs may contain `&`, `?`, `#`, or spaces. Those characters **break** the URL if interpolated raw (`/topics/agriculture-&-food` is parsed as path + query).
+
+- **Build hrefs** with path helpers that call `encodePathSlug` (e.g. `paths.article(slug)`, `paths.category(slug)`). Do not concatenate slugs into path strings yourself.
+- **Read route params** (and any slug from the URL) with **`decodePathSlug`**. Never `decodeURIComponent` ad hoc; never compare the raw param to a stored slug without decoding.
+
+```ts
+// ❌ BAD
+const href = `/articles/${item.slug}`;
+items.find((f) => f.slug === params.slug);
+
+// ✅ GOOD
+import { decodePathSlug, paths } from "@/lib/paths";
+const href = paths.article(item.slug);
+const slug = decodePathSlug(params.slug);
+```
+
+Prefer a shared resolver (e.g. `findBySlug`) that already uses `decodePathSlug` when matching list data to a route param.

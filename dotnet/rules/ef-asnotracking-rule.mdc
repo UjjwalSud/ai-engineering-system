@@ -1,0 +1,15 @@
+---
+description: Use AsNoTracking on read-only EF queries that return View/DTOs
+globs: src/Infrastructure/**/*Service*.cs
+alwaysApply: true
+---
+
+# EF AsNoTracking
+
+Rule of thumb: if the method returns a View/DTO and never calls SaveChanges on those rows, add `AsNoTracking()`. If it loads to change/delete, leave tracking.
+
+- Add `AsNoTracking()` on Get/List/Search/cache-load queries that map to View/DTO (`Adapt`, `Select` to DTO, `PaginatedListAsync<Entity, Dto>`)
+- Leave tracking on Create/Update/Delete/Assign and any load that mutates then `SaveChanges`
+- Skip adding it when the query already projects with `.Select(new SomeDto)` — EF does not track those
+- For existence/conflict checks (`AlreadyExists`), prefer `AnyAsync()` (no tracking). If you still load the row only for the error message, use `AsNoTracking()`
+- Do not add it globally to every query
