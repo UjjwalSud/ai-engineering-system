@@ -19,13 +19,16 @@ This repository is organized by **technology stack**, where each stack has its o
 
 - `dotnet/` → Clean Architecture backend system (.NET)
 - `nextjs/` → SEO-first frontend system (Next.js)
+- `legacy-modernization/` → Reverse-engineer legacy ASP.NET MVC before modernization
 
-Each system contains:
+Stack systems (`dotnet/`, `nextjs/`) typically contain:
 
 - `AGENTS.md` → Core instructions for that stack
 - `docs/` → Architecture, decisions, and reference patterns
 - `prompts/` → Reusable prompts for common development tasks
 - `rules/` → Guidelines to enforce consistency and best practices
+
+The legacy modernization guide focuses on **discovery and documentation** first (see [legacy-modernization/README.md](./legacy-modernization/README.md)).
 
 ---
 
@@ -33,11 +36,12 @@ Each system contains:
 
 Instead of writing everything from scratch each time, I:
 
-1. Choose the relevant system (`dotnet` or `nextjs`)
-2. Start with a clear plan based on that system’s architecture
-3. Use prompts to generate consistent outputs
-4. Follow rules to maintain structure and boundaries
-5. Refer to existing patterns for alignment
+1. For brownfield work: run [legacy-modernization](./legacy-modernization/README.md) until the legacy blueprint is migration-ready
+2. Choose the relevant build system (`dotnet` or `nextjs`)
+3. Start with a clear plan based on that system’s architecture
+4. Use prompts to generate consistent outputs
+5. Follow rules to maintain structure and boundaries
+6. Refer to existing patterns for alignment
 
 ---
 
