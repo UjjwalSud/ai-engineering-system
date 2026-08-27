@@ -39,9 +39,9 @@ Do **not** put absolute machine paths in the published analysis.
 - **Read-only** on `<legacy-repo>` during analysis (unless the team explicitly allows doc-only tooling).
 - Write analysis **only** under `<analysis-root>` (usually inside `<modernized-repo>`).
 - **No migration implementation** in this phase.
-- **Docs on demand:** create folders when analysis starts — do not bulk-scaffold empty templates.
+- **Docs on demand:** create folders when analysis starts - do not bulk-scaffold empty templates.
 - **Live database not required** for the initial pass (see Database connectivity rule).
-- **Secrets:** never copy credentials/keys into docs — use `[REDACTED - SECRET]`.
+- **Secrets:** never copy credentials/keys into docs - use `[REDACTED - SECRET]`.
 - **Evidence-first:** do not invent entities, FKs, workflows, integrations, jobs, or platform docs.
 - Discover and record actual counts (`<controller-count>`, `<action-count>`, `<entity-count>`, etc.). Do not treat any sample size as a requirement.
 
@@ -74,13 +74,13 @@ Do **not** put absolute machine paths in the published analysis.
 
 ---
 
-# Phase 1 — Controller / Action Discovery
+# Phase 1 - Controller / Action Discovery
 
 ## 1.1 Inventory
 
 1. Create `<analysis-root>/README.md` with methodology, scope, and a controller inventory table.
 2. Discover controllers under `<legacy-source-root>/Controllers` (or equivalent).
-3. Detect **routable actions**: public instance methods MVC can route — **not** “has a return type” alone.
+3. Detect **routable actions**: public instance methods MVC can route - **not** “has a return type” alone.
 4. Exclude: constructors, `[NonAction]`, lifecycle overrides (`OnActionExecuting`, etc.), obvious non-route helpers.
 5. Record preliminary counts; mark status Incomplete until each controller is fully analysed.
 
@@ -99,7 +99,7 @@ Base controllers: document via inheriting actions, or add a platform note later 
 
 ---
 
-# Phase 2 — Action-Level Reverse Engineering
+# Phase 2 - Action-Level Reverse Engineering
 
 ## 2.1 Folder pattern
 
@@ -195,10 +195,10 @@ and continue. Do not block the analysis.
 
 | Label | Meaning |
 | ----- | ------- |
-| Confirmed — explicit mapping | Attribute / Fluent / clear mapping in code |
-| Confirmed — navigation / FK relationship | Nav property and/or `[ForeignKey]` (or equivalent) |
-| Confirmed — SQL / LINQ join | Join/filter evidence in queries |
-| Inferred — application usage | Used together in app logic; not a proven physical FK |
+| Confirmed - explicit mapping | Attribute / Fluent / clear mapping in code |
+| Confirmed - navigation / FK relationship | Nav property and/or `[ForeignKey]` (or equivalent) |
+| Confirmed - SQL / LINQ join | Join/filter evidence in queries |
+| Inferred - application usage | Used together in app logic; not a proven physical FK |
 | Needs DB Verification | Requires live schema / data confirmation |
 | Needs Runtime Verification | Requires running app / environment confirmation |
 
@@ -206,7 +206,7 @@ and continue. Do not block the analysis.
 
 ---
 
-# Phase 3 — Documentation Navigation
+# Phase 3 - Documentation Navigation
 
 ## 3.1 Root files
 
@@ -232,11 +232,11 @@ and, if present, settings / background / platform / verification / coverage gaps
 - Relative links only (GitHub-portable).
 - Controller README links to each action’s `summary.md`.
 - Action docs link back to controller README and `INDEX.md`.
-- Do not rewrite analysis content just to add navigation — additive links only.
+- Do not rewrite analysis content just to add navigation - additive links only.
 
 ---
 
-# Phase 4 — Entity / Database Relationships
+# Phase 4 - Entity / Database Relationships
 
 Complement the vertical controller view with a horizontal data map.
 
@@ -296,11 +296,11 @@ Controller / Action summary
 Detailed action analysis
 ```
 
-Where an action’s `database.md` clearly uses a documented entity, add only a small related-entities section — do not rewrite existing DB analysis.
+Where an action’s `database.md` clearly uses a documented entity, add only a small related-entities section - do not rewrite existing DB analysis.
 
 ---
 
-# Phase 5 — Application Configuration / Settings
+# Phase 5 - Application Configuration / Settings
 
 ## 5.1 Structure
 
@@ -383,7 +383,7 @@ This is a **behaviour map**, not a secret inventory.
 
 ---
 
-# Phase 6 — Background / Platform Behaviour
+# Phase 6 - Background / Platform Behaviour
 
 Controller docs will not naturally capture everything.
 
@@ -448,7 +448,7 @@ Do not create `workflows/`, `integrations/`, `ui-map/`, or similar unless:
 
 ---
 
-# Phase 7 — Coverage Gap Audit
+# Phase 7 - Coverage Gap Audit
 
 Create:
 
@@ -482,7 +482,7 @@ Do **not** manufacture findings to fill categories.
 
 ---
 
-# Phase 8 — Verification Index
+# Phase 8 - Verification Index
 
 If unresolved verification themes exist, create:
 
@@ -507,7 +507,7 @@ A system can still be **ready for migration planning** while verification items 
 
 ---
 
-# Phase 9 — Final Coverage / Link Audit
+# Phase 9 - Final Coverage / Link Audit
 
 ## 9.1 Consistency checks
 
@@ -554,7 +554,7 @@ Use actual findings. Do not mark Complete unless verified.
 
 ---
 
-# Phase 10 — Migration Readiness Decision
+# Phase 10 - Migration Readiness Decision
 
 Produce an evidence-based conclusion:
 
@@ -565,7 +565,7 @@ Ready for migration planning
 or:
 
 ```text
-Not yet ready — material gaps remain
+Not yet ready - material gaps remain
 ```
 
 Distinguish:
@@ -576,7 +576,7 @@ Distinguish:
 | DB verification gap | Documented from source; needs live schema confirmation |
 | Runtime verification gap | Documented from source; needs running system confirmation |
 
-**Ready** is allowed when docs cover material behaviour and remaining items are indexed verification themes — not when major undocumented runtime paths remain.
+**Ready** is allowed when docs cover material behaviour and remaining items are indexed verification themes - not when major undocumented runtime paths remain.
 
 **Stop here.** Do not start migration design in the same pass unless the team explicitly begins a new phase.
 
@@ -586,7 +586,7 @@ Distinguish:
 
 - Self-contained action docs; label confidence honestly
 - No invented SP / SQL / FK behaviour
-- No migration suggestions inside analysis files — document legacy as-is
+- No migration suggestions inside analysis files - document legacy as-is
 - Prefer File / Class / Method over line numbers
 - Relative links only in `<analysis-root>`
 - Secrets always `[REDACTED - SECRET]`
