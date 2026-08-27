@@ -1,4 +1,4 @@
-# Legacy Analysis — Documentation Structure
+# Legacy Analysis - Documentation Structure
 
 Visual reference for the reverse-engineering documentation tree produced by [legacy-system-analysis-plan.md](./legacy-system-analysis-plan.md).
 
@@ -14,7 +14,7 @@ legacy-system-analysis/          # typical name for <analysis-root>
 ├── README.md                    # methodology, counts, status, model
 ├── INDEX.md                     # human navigation
 ├── coverage-gaps.md             # gap audit + final coverage status
-├── verification-required.md     # OPTIONAL — only if unresolved themes exist
+├── verification-required.md     # OPTIONAL - only if unresolved themes exist
 │
 ├── <ControllerName>/            # one folder per *Controller.cs
 │   ├── README.md
@@ -42,11 +42,11 @@ legacy-system-analysis/          # typical name for <analysis-root>
 │       ├── AuthenticationSettings.md
 │       └── <LogicalGroup>.md
 │
-├── background/                  # CONDITIONAL — only if workers/jobs exist
+├── background/                  # CONDITIONAL - only if workers/jobs exist
 │   ├── README.md
 │   └── <ServiceOrJob>.md
 │
-└── platform/                    # CONDITIONAL — only if cross-cutting runtime docs needed
+└── platform/                    # CONDITIONAL - only if cross-cutting runtime docs needed
     ├── README.md
     ├── startup-pipeline.md
     ├── authorization.md
@@ -175,7 +175,7 @@ legacy-system-analysis/
     └── session-helper.md
 ```
 
-Names above are generic placeholders — replace with names discovered in the target legacy app.
+Names above are generic placeholders - replace with names discovered in the target legacy app.
 
 ---
 
