@@ -1,4 +1,4 @@
-# Legacy Modernization — Analysis First
+# Legacy Modernization - Analysis First
 
 A reusable methodology for reverse-engineering a legacy ASP.NET MVC application **before** modernizing it (for example to a modern .NET API + React frontend, often keeping the same database).
 
