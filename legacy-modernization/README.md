@@ -22,7 +22,7 @@ Legacy modernization projects often fail because teams start rewriting before th
 - configuration and environment settings
 - runtime / platform behaviour (middleware, filters, startup pipeline)
 
-When that happens, “modern” code ships without the quirks that kept the old system working — and production breaks in subtle ways.
+When that happens, “modern” code ships without the quirks that kept the old system working - and production breaks in subtle ways.
 
 ---
 
@@ -69,16 +69,16 @@ That order reduces the risk of silently dropping hidden behaviour during moderni
 
 | Phase | Focus |
 | ----- | ----- |
-| **1 — Controller / Action Discovery** | Inventory every routable MVC action; record counts |
-| **2 — Action-Level Reverse Engineering** | Seven-file analysis per action; deep dependency tracing |
-| **3 — Documentation Navigation** | `README.md` + `INDEX.md` with relative links |
-| **4 — Entity / Database Relationships** | One file per persistent entity; cross-link to actions |
-| **5 — Application Configuration / Settings** | Logical settings groups; redact secrets |
-| **6 — Background / Platform Behaviour** | Hosted services, middleware, auth, shared helpers — **only if found** |
-| **7 — Coverage Gap Audit** | What would still be hard to understand? |
-| **8 — Verification Index** | Index `Needs DB/Runtime Verification` themes |
-| **9 — Final Coverage / Link Audit** | Counts, consistency, unbroken Markdown links |
-| **10 — Migration Readiness Decision** | Ready vs not ready — evidence-based |
+| **1 - Controller / Action Discovery** | Inventory every routable MVC action; record counts |
+| **2 - Action-Level Reverse Engineering** | Seven-file analysis per action; deep dependency tracing |
+| **3 - Documentation Navigation** | `README.md` + `INDEX.md` with relative links |
+| **4 - Entity / Database Relationships** | One file per persistent entity; cross-link to actions |
+| **5 - Application Configuration / Settings** | Logical settings groups; redact secrets |
+| **6 - Background / Platform Behaviour** | Hosted services, middleware, auth, shared helpers - **only if found** |
+| **7 - Coverage Gap Audit** | What would still be hard to understand? |
+| **8 - Verification Index** | Index `Needs DB/Runtime Verification` themes |
+| **9 - Final Coverage / Link Audit** | Counts, consistency, unbroken Markdown links |
+| **10 - Migration Readiness Decision** | Ready vs not ready - evidence-based |
 
 Detailed steps live in [legacy-system-analysis-plan.md](./legacy-system-analysis-plan.md).  
 Folder layout lives in [documentation-structure.md](./documentation-structure.md).
@@ -123,7 +123,7 @@ Example analysis root:
 <modernized-repo>/.cursor/legacy-system-analysis/
 ```
 
-(or any agreed documentation location — the structure matters more than the path)
+(or any agreed documentation location - the structure matters more than the path)
 
 ---
 
@@ -138,7 +138,7 @@ For every proposed document ask:
 3. Is it already documented elsewhere adequately?
 4. Would a canonical document add genuine understanding?
 
-If no — do not create the file.
+If no - do not create the file.
 
 ---
 
