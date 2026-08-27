@@ -20,6 +20,7 @@ This repository is organized by **technology stack**, where each stack has its o
 - `dotnet/` → Clean Architecture backend system (.NET)
 - `nextjs/` → SEO-first frontend system (Next.js)
 - `legacy-modernization/` → Reverse-engineer legacy ASP.NET MVC before modernization
+- `project-document-analysis/` → Turn project briefs into a consistent understanding report
 
 Stack systems (`dotnet/`, `nextjs/`) typically contain:
 
@@ -29,6 +30,8 @@ Stack systems (`dotnet/`, `nextjs/`) typically contain:
 - `rules/` → Guidelines to enforce consistency and best practices
 
 The legacy modernization guide focuses on **discovery and documentation** first (see [legacy-modernization/README.md](./legacy-modernization/README.md)).
+
+For new or unclear briefs, start with [project-document-analysis/README.md](./project-document-analysis/README.md).
 
 ---
 
